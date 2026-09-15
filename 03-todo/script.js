@@ -8,6 +8,18 @@ function renderTodos() {
   for (let i = 0; i < todos.length; i++) {
     const li = document.createElement("li");
     li.textContent = todos[i];
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "削除";
+
+    deleteBtn.addEventListener("click", function () {
+      todos = todos.filter(function (todo, index) {
+        return index !== i;
+      });
+      renderTodos();
+    });
+
+    li.appendChild(deleteBtn);
     todoList.appendChild(li);
   }
 }
