@@ -16,6 +16,16 @@ function renderExpenses() {
   for (let i = 0; i < expenses.length; i++) {
     const li = document.createElement("li");
     li.textContent = `${expenses[i].category}: ${expenses[i].amount}円 (${expenses[i].memo})`;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "削除";
+    deleteBtn.addEventListener("click", function () {
+      expenses = expenses.filter(function (_expenses, index) {
+        return index !== i;
+      });
+      renderExpenses();
+    });
+    li.appendChild(deleteBtn);
     expenseList.appendChild(li);
   }
   const total = expenses.reduce(function (sum, expense) {
