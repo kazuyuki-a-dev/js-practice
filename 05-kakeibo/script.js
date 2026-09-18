@@ -8,6 +8,7 @@ const amountInput = document.getElementById("amountInput");
 const categoryInput = document.getElementById("categoryInput");
 const memoInput = document.getElementById("memoInput");
 const addBtn = document.getElementById("addBtn");
+const totalText = document.getElementById("totalText");
 
 function renderExpenses() {
   expenseList.innerHTML = "";
@@ -17,6 +18,11 @@ function renderExpenses() {
     li.textContent = `${expenses[i].category}: ${expenses[i].amount}円 (${expenses[i].memo})`;
     expenseList.appendChild(li);
   }
+  const total = expenses.reduce(function (sum, expense) {
+    return sum + expense.amount;
+  }, 0);
+
+  totalText.textContent = `合計： ${total}円`;
 }
 renderExpenses();
 
