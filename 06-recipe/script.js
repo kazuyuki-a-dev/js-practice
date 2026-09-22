@@ -13,37 +13,48 @@ const recipeList = document.getElementById("recipeList");
 const nameInput = document.getElementById("nameInput");
 const ingredientsInput = document.getElementById("ingredientsInput");
 const addBtn = document.getElementById("addBtn");
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", function () {
+  renderRecipes();
+});
 
 function renderRecipes() {
   recipeList.innerHTML = "";
 
-  for (let i = 0; i < recipes.length; i++) {
+  const keyword = searchInput.value;
+
+  const filteredRecipes = recipes.filter(function (recipe) {
+    return recipe.ingredients.includes(keyword);
+  });
+
+  for (let i = 0; i < filteredRecipes.length; i++) {
     const recipeDiv = document.createElement("div");
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "削除";
 
     deleteBtn.addEventListener("click", function () {
-      recipes = recipes.filter(function (_recipes, index) {
-        return index !== i;
+      recipes = recipes.filter(function (r) {
+        return r !== filteredRecipes[i];
       });
       renderRecipes();
     });
 
     const nameHeading = document.createElement("h3");
-    nameHeading.textContent = recipes[i].name;
+    nameHeading.textContent = filteredRecipes[i].name;
     recipeDiv.appendChild(nameHeading);
 
     const ingredientList = document.createElement("ul");
 
-    for (let j = 0; j < recipes[i].ingredients.length; j++) {
+    for (let j = 0; j < filteredRecipes[i].ingredients.length; j++) {
       const li = document.createElement("li");
-      li.textContent = recipes[i].ingredients[j];
+      li.textContent = filteredRecipes[i].ingredients[j];
       ingredientList.appendChild(li);
     }
 
     recipeDiv.appendChild(ingredientList);
-    recipeList.appendChild(deleteBtn);
+    recipeDiv.appendChild(deleteBtn);
     recipeList.appendChild(recipeDiv);
   }
 }
